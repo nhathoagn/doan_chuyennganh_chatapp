@@ -7,6 +7,7 @@ import AppProvider from './Context/AppProvider';
 import AddRoomModal from './components/Modals/AddRoomModal';
 import InviteMemberModal from './components/Modals/InviteMemberModal';
 import Profile from "./components/Profile/Profile";
+import VideoCall from "./components/VideoCall/VideoCall";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
           {/*<Profile/>*/}
           <AddRoomModal />
           <InviteMemberModal />
-
+          <VideoCall/>
         </AppProvider>
       </AuthProvider>
     </BrowserRouter>

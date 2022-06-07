@@ -1,4 +1,4 @@
-import { UserAddOutlined } from '@ant-design/icons';
+import {PhoneOutlined, UserAddOutlined} from '@ant-design/icons';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Tooltip, Avatar, Form, Input, Alert } from 'antd';
@@ -72,6 +72,8 @@ export default function ChatWindow() {
     user: { uid, displayName },
   } = useContext(AuthContext);
   const {dataUser:{photo}}=React.useContext(AppContext)
+  const {visible, setVisible,childrenDrawer, setChildrenDrawer} = useContext(AppContext);
+
   const [inputValue, setInputValue] = useState('');
   const [img, setImg] = useState("");
   const [form] = Form.useForm();
@@ -127,6 +129,10 @@ export default function ChatWindow() {
     }
   }, [messages]);
   console.log(messages)
+  const visibale = () => {
+    setVisible(true);
+
+  }
   return (
       <WrapperStyled>
         {selectedRoom.id ? (
@@ -139,6 +145,13 @@ export default function ChatWindow() {
               </span>
                 </div>
                 <ButtonGroupStyled>
+                  <Button
+                      icon={<PhoneOutlined />}
+                      type='text'
+                      onClick={() => visibale()}
+                  >
+
+                  </Button>
                   <Button
                       icon={<UserAddOutlined />}
                       type='text'
