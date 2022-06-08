@@ -129,10 +129,7 @@ export default function ChatWindow() {
     }
   }, [messages]);
   console.log(messages)
-  const visibale = () => {
-    setVisible(true);
 
-  }
   return (
       <WrapperStyled>
         {selectedRoom.id ? (
@@ -145,13 +142,7 @@ export default function ChatWindow() {
               </span>
                 </div>
                 <ButtonGroupStyled>
-                  <Button
-                      icon={<PhoneOutlined />}
-                      type='text'
-                      onClick={() => visibale()}
-                  >
 
-                  </Button>
                   <Button
                       icon={<UserAddOutlined />}
                       type='text'

@@ -22,7 +22,7 @@ function App() {
           {/*<Profile/>*/}
           <AddRoomModal />
           <InviteMemberModal />
-          <VideoCall/>
+
         </AppProvider>
       </AuthProvider>
     </BrowserRouter>

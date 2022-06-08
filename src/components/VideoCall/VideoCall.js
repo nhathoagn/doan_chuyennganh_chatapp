@@ -1,8 +1,4 @@
-import Button from "@material-ui/core/Button"
-import IconButton from "@material-ui/core/IconButton"
-import TextField from "@material-ui/core/TextField"
-import AssignmentIcon from "@material-ui/icons/Assignment"
-import PhoneIcon from "@material-ui/icons/Phone"
+
 import React, {useEffect, useRef, useState, useContext} from "react"
 import {CopyToClipboard} from "react-copy-to-clipboard"
 import Peer from "simple-peer"
@@ -10,7 +6,9 @@ import io from "socket.io-client"
 
 import VideoCallStyle from "./VideoCall.module.css"
 import {AppContext} from "../../Context/AppProvider";
-import {Drawer, Space} from "antd";
+import {Drawer, Space, Button, Input} from "antd";
+import {CopyTwoTone, PhoneTwoTone} from "@ant-design/icons";
+import {IconButton} from "@mui/material";
 
 const socket = io.connect('http://localhost:5000')
 console.log(socket.id)
@@ -38,25 +36,24 @@ function VideoCall() {
     const connectionRef = useRef()
 
     useEffect(() => {
+        socket.on("me", (id) => {
+            setMe(id)
+        })
+
+        socket.on("callUser", (data) => {
+            setReceivingCall(true)
+            setCaller(data.from)
+            setName(data.name)
+            setCallerSignal(data.signal)
+        })
 
         navigator.mediaDevices.getUserMedia({video: true, audio: true}).then((stream) => {
             setStream(stream)
             myVideo.current.srcObject = stream
         })
+    }, [])
 
 
-    }, [visible])
-
-    socket.on("me", (id) => {
-        setMe(id)
-    })
-    console.log("adsd",me)
-    socket.on("callUser", (data) => {
-        setReceivingCall(true)
-        setCaller(data.from)
-        setName(data.name)
-        setCallerSignal(data.signal)
-    })
     const callUser = (id) => {
         const peer = new Peer({
             initiator: true,
@@ -72,7 +69,6 @@ function VideoCall() {
             })
         })
         peer.on("stream", (stream) => {
-
             userVideo.current.srcObject = stream
 
         })
@@ -106,15 +102,14 @@ function VideoCall() {
         setCallEnded(true)
         connectionRef.current.destroy()
     }
-    console.log(me)
+    console.log("dasda",me, visible, stream)
     return (
         <>
             <Drawer
                 title="VideoCall"
-
+                visible={visible}
                 width={700}
                 onClose={onClose}
-                visible={visible}
                 extra={
                     <Space>
                         <Button onClick={onClose}>Cancel</Button>
@@ -136,7 +131,7 @@ function VideoCall() {
                         </div>
                     </div>
                     <div className={VideoCallStyle['myId']}>
-                        <TextField
+                        <Input
                             id="filled-basic"
                             label="Name"
                             variant="filled"
@@ -145,11 +140,11 @@ function VideoCall() {
                             style={{marginBottom: "20px"}}
                         />
                         <CopyToClipboard text={me} style={{marginBottom: "2rem"}}>
-                            <Button variant="contained" color="primary" startIcon={<AssignmentIcon fontSize="large"/>}>
+                            <Button variant="contained" color="primary" starticon={<CopyTwoTone fontSize="large"/>}>
                                 Copy ID
                             </Button>
                         </CopyToClipboard>
-                        <TextField
+                        <Input
                             id="filled-basic"
                             label="ID to call"
                             variant="filled"
@@ -164,10 +159,10 @@ function VideoCall() {
                                 </Button>
                             ) : (
                                 <IconButton color="primary" aria-label="call" onClick={() => callUser(idToCall)}>
-                                    <PhoneIcon fontSize="large"/>
+                                    <PhoneTwoTone  fontSize="large"/>
                                 </IconButton>
                             )}
-                            {idToCall}
+
                         </div>
                     </div>
                     <div>

@@ -3,10 +3,12 @@
   height: 10px;
   border-radius: 50%;
   position: relative;
-  top: 10px;
+  top: 8px;
+  left: 18px;
 }
 .online {
   background: #34eb52;
+
 }
 .offline {
   background: var(--color-5);
