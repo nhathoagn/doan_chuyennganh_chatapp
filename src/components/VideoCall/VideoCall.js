@@ -10,9 +10,16 @@ import {Drawer, Space, Button, Input} from "antd";
 import {CopyTwoTone, PhoneTwoTone} from "@ant-design/icons";
 import {IconButton} from "@mui/material";
 
-const socket = io.connect('http://localhost:5000')
-console.log(socket.id)
-function VideoCall() {
+
+
+ let socket;
+console.log("đã chạy qua videocall rồi hoàng ơi")
+function VideoCall()  {
+    // const socket = io('http://localhost:5000')
+    console.log("asdasds")
+    // console.log("socket",socket.id)
+    console.log("ádasd")
+    // const [s,setS] = useState(socket)
     const [me, setMe] = useState("")
     const [stream, setStream] = useState()
     const [receivingCall, setReceivingCall] = useState(false)
@@ -22,36 +29,41 @@ function VideoCall() {
     const [idToCall, setIdToCall] = useState("")
     const [callEnded, setCallEnded] = useState(false)
     const [name, setName] = useState("")
-    const [placement, setPlacement] = useState('right');
-    const onChange = (e) => {
-        setPlacement(e.target.value);
-    };
+
 
     const onClose = () => {
         setVisible(false);
     };
+
     const {visible, setVisible} = useContext(AppContext);
     const myVideo = useRef()
     const userVideo = useRef()
     const connectionRef = useRef()
 
-    useEffect(() => {
-        socket.on("me", (id) => {
-            setMe(id)
-        })
 
-        socket.on("callUser", (data) => {
-            setReceivingCall(true)
-            setCaller(data.from)
-            setName(data.name)
-            setCallerSignal(data.signal)
-        })
+    useEffect( () =>{
+        console.log("toang rồi hoàng ơi ")
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((currentStream) => {
+                console.log("toang rồi ")
+                setStream(currentStream);
+                if (myVideo.current) {
+                    myVideo.current.srcObject = currentStream;
+                }
+            })
+            socket = io('http://localhost:5000');
+            console.log("socket",socket.id)
+            socket.on("me", (id) => {
+                console.log("socsetid", id)
+                setMe(id)
+            })
+            socket.on("callUser", (data) => {
+                setReceivingCall(true)
+                setCaller(data.from)
+                setName(data.name)
+                setCallerSignal(data.signal)
+            })
 
-        navigator.mediaDevices.getUserMedia({video: true, audio: true}).then((stream) => {
-            setStream(stream)
-            myVideo.current.srcObject = stream
-        })
-    }, [])
+        },[])
 
 
     const callUser = (id) => {
@@ -102,10 +114,15 @@ function VideoCall() {
         setCallEnded(true)
         connectionRef.current.destroy()
     }
+    const cancel = () => {
+        setCallEnded(true)
+        setReceivingCall(false)
+    }
     console.log("dasda",me, visible, stream)
+
     return (
         <>
-            <Drawer
+            { visible && <Drawer
                 title="VideoCall"
                 visible={visible}
                 width={700}
@@ -132,6 +149,7 @@ function VideoCall() {
                     </div>
                     <div className={VideoCallStyle['myId']}>
                         <Input
+                            placeholder="Nhập họ và tên"
                             id="filled-basic"
                             label="Name"
                             variant="filled"
@@ -140,11 +158,12 @@ function VideoCall() {
                             style={{marginBottom: "20px"}}
                         />
                         <CopyToClipboard text={me} style={{marginBottom: "2rem"}}>
-                            <Button variant="contained" color="primary" starticon={<CopyTwoTone fontSize="large"/>}>
+                            <Button variant="contained" type="primary" >
                                 Copy ID
                             </Button>
                         </CopyToClipboard>
                         <Input
+                            placeholder="Nhập id người gọi"
                             id="filled-basic"
                             label="ID to call"
                             variant="filled"
@@ -176,7 +195,8 @@ function VideoCall() {
                         ) : null}
                     </div>
                 </div>
-            </Drawer>
+            </Drawer>}
+
         </>
     )
 }

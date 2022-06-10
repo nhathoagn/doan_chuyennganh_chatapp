@@ -15,7 +15,7 @@ export default function AppProvider({ children }) {
     const {
     user: { uid },
   } = React.useContext(AuthContext);
-
+    const [load,setLoad] = useState(false);
   const roomsCondition = React.useMemo(() => {
     return {
       fieldName: 'members',
@@ -59,7 +59,7 @@ export default function AppProvider({ children }) {
     setIsAddRoomVisible(false);
     setIsInviteMemberVisible(false);
   };
-
+    console.log("asdsada",visible)
   return (
     <AppContext.Provider
       value={{
@@ -80,7 +80,8 @@ export default function AppProvider({ children }) {
           visible,
           setVisible,
           childrenDrawer,
-          setChildrenDrawer
+          setChildrenDrawer,
+          load,setLoad
 
 
       }}

@@ -131,7 +131,9 @@ export default function ChatWindow() {
   console.log(messages)
 
   return (
+
       <WrapperStyled>
+
         {selectedRoom.id ? (
             <>
               <HeaderStyled>

@@ -15,17 +15,14 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         socket.broadcast.emit("callEnded")
     })
-    console.log("1")
+
     socket.on("callUser", (data) => {
         io.to(data.userToCall).emit("callUser", { signal: data.signalData, from: data.from, name: data.name })
     })
-    console.log("2")
 
     socket.on("answerCall", (data) => {
         io.to(data.to).emit("callAccepted", data.signal)
     })
-    console.log("3")
-
 })
 
 server.listen(5000, () => console.log("server is running on port 5000"))

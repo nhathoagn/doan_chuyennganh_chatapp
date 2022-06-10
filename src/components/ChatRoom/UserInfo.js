@@ -26,7 +26,7 @@ import UserInfoStyle from "../ChatRoom/UserInfo.module.css"
 export default function UserInfo() {
     const navigate = useNavigate()
     const {dataUser: {isOnline}} = React.useContext(AppContext)
-    const {setVisible} = useContext(AppContext)
+    const {visible,setVisible,load,setLoad} = useContext(AppContext)
     const {
         user: {displayName},
     } = React.useContext(AuthContext);
@@ -51,10 +51,13 @@ export default function UserInfo() {
         navigate("/login")
 
     }
-    const visibale = () => {
+    const Visibale = () => {
         setVisible(true);
+        setLoad(true)
 
     }
+    console.log("userinfo",visible)
+
     return (
         <>
             <div className={UserInfoStyle['info']}>
@@ -80,7 +83,7 @@ export default function UserInfo() {
                 Đăng xuất
             </Button>
             <Button className={UserInfoStyle['button']} ghost onClick={handleProfile}>Thông tin cá nhân</Button>
-            <Button className={UserInfoStyle['button']} ghost onClick={() => visibale()}>VideoCall</Button>
+            <Button className={UserInfoStyle['button']} ghost onClick={() => Visibale()}>VideoCall</Button>
         </>
 
     );
