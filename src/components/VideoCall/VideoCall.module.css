@@ -38,4 +38,14 @@
     text-align: center;
     color: #fff;
 }
+.scroll {
 
+    width: 568px;
+    height: 408px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+}
+::-webkit-scrollbar {
+    display: none;
+}

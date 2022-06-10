@@ -10,12 +10,15 @@ export default function AppProvider({ children }) {
   const [selectedRoomId, setSelectedRoomId] = useState('');
   const [isProfileVisible, setIsProfileVisible] = useState(false);
   const [dataUser,setDataUser] = useState('')
+    const [zindex, setZindex] = useState(0);
     const [visible, setVisible] = useState(false);
     const [childrenDrawer, setChildrenDrawer] = useState(false);
     const {
     user: { uid },
   } = React.useContext(AuthContext);
     const [load,setLoad] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+    const [img, setImg] = useState("");
   const roomsCondition = React.useMemo(() => {
     return {
       fieldName: 'members',
@@ -43,6 +46,15 @@ export default function AppProvider({ children }) {
 
     console.log(members)
 
+    // const condition = React.useMemo(
+    //     () => ({
+    //         fieldName: 'roomId',
+    //         operator: '==',
+    //         compareValue: selectedRoom.id,
+    //     }),
+    //     [selectedRoom.id]
+    // );
+
     const condition = React.useMemo(
         () => ({
             fieldName: 'roomId',
@@ -52,7 +64,7 @@ export default function AppProvider({ children }) {
         [selectedRoom.id]
     );
 
-
+    const messages = useFirestore('messages', condition);
 
   const clearState = () => {
     setSelectedRoomId('');
@@ -81,7 +93,10 @@ export default function AppProvider({ children }) {
           setVisible,
           childrenDrawer,
           setChildrenDrawer,
-          load,setLoad
+          load,setLoad,
+          inputValue, setInputValue,
+          img, setImg
+          ,messages
 
 
       }}

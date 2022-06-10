@@ -74,8 +74,8 @@ export default function ChatWindow() {
   const {dataUser:{photo}}=React.useContext(AppContext)
   const {visible, setVisible,childrenDrawer, setChildrenDrawer} = useContext(AppContext);
 
-  const [inputValue, setInputValue] = useState('');
-  const [img, setImg] = useState("");
+  const {inputValue, setInputValue,img, setImg} = useContext(AppContext);
+
   const [form] = Form.useForm();
   const inputRef = useRef(null);
   const messageListRef = useRef(null);
