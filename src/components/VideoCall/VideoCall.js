@@ -115,7 +115,7 @@ function VideoCall()  {
         connectionRef.current.destroy()
     }
     const cancel = () => {
-        setCallEnded(true)
+        // setCallEnded(true)
         setReceivingCall(false)
     }
     console.log("dasda",me, visible, stream)
@@ -191,7 +191,11 @@ function VideoCall()  {
                                 <Button variant="contained" color="primary" onClick={answerCall}>
                                     Answer
                                 </Button>
+                                <Button variant="contained" color="danger" onClick={cancel}>
+                                    Cancel
+                                </Button>
                             </div>
+
                         ) : null}
                     </div>
                 </div>
